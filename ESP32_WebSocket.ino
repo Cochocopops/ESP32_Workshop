@@ -81,12 +81,14 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
   if (type == WStype_TEXT) {
     String payloadString = (const char *)payload;
 
+    // Contrôle de la LED rouge (ventilateur)
     if (payloadString.indexOf("fanLEDonoff=ON") >= 0) {
       fanLEDonoff = true;
     } else if (payloadString.indexOf("fanLEDonoff=OFF") >= 0) {
       fanLEDonoff = false;
     }
 
+    // Contrôle de la LED bleue (humidificateur)
     if (payloadString.indexOf("humLEDonoff=ON") >= 0) {
       humLEDonoff = true;
     } else if (payloadString.indexOf("humLEDonoff=OFF") >= 0) {
