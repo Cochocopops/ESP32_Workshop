@@ -7,3 +7,4 @@ Sketch:
 Demo:
 https://github.com/user-attachments/assets/c508892e-5ca2-4c75-a37d-8b59d172ff23
 
+[ESP32 Figma.zip](https://github.com/user-attachments/files/17347670/ESP32.Figma.zip)
