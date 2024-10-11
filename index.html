@@ -3,56 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESP32 WebSocket Control</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f0f0; }
-        h1 { color: #333; }
-        h2 { color: #555; }
-        button { padding: 10px 20px; margin: 10px; cursor: pointer; }
-        #status { margin-top: 20px; }
-    </style>
+    <title>Welcome to ESP32 Control</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>ESP32 WebSocket Control</h1>
-    <div>
-        <button onclick="sendCommand('fan=ON')">Fan ON</button>
-        <button onclick="sendCommand('fan=OFF')">Fan OFF</button>
-        <button onclick="sendCommand('hum=ON')">Humidifier ON</button>
-        <button onclick="sendCommand('hum=OFF')">Humidifier OFF</button>
+    <div class="container">
+        <h1>Welcome to the ESP32 Control Panel</h1>
+        <button onclick="navigateToControlPanel()">Enter Control Panel</button>
     </div>
-    <h2>Temperature: <span id="temp">0</span> °C</h2>
-    <h2>Humidity: <span id="hum">0</span> %</h2>
-    <div id="status">Connecting...</div>
 
     <script>
-        let webSocket;
-
-        function connectWebSocket() {
-            const ip = "192.168.1.xxx"; // Remplacez par l'adresse IP de votre ESP32
-            webSocket = new WebSocket(`ws://${ip}:81/`);
-
-            webSocket.onopen = () => {
-                document.getElementById('status').innerText = 'Connected';
-            };
-
-            webSocket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                document.getElementById('temp').innerText = data.temp;
-                document.getElementById('hum').innerText = data.hum;
-            };
-
-            webSocket.onclose = () => {
-                document.getElementById('status').innerText = 'Disconnected';
-            };
+        function navigateToControlPanel() {
+            window.location.href = "control.html";
         }
-
-        function sendCommand(command) {
-            if (webSocket && webSocket.readyState === WebSocket.OPEN) {
-                webSocket.send(command);
-            }
-        }
-
-        connectWebSocket();
     </script>
 </body>
 </html>

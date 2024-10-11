@@ -1,53 +1,42 @@
 body {
-    background-color: #f0f0f0;
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
     text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
-h2 {
-    color: #555;
+.info p {
+    font-size: 18px;
+    margin: 10px 0;
 }
 
-.bars {
-    margin: 20px;
-}
-
-#dynRectangle1, #dynRectangle2 {
-    background-color: #00f;
-    height: 10px;
-    margin: 5px 0;
-}
-
-#dynRectangle1 {
-    background-color: rgba(255, 0, 0, 0.8);
-}
-
-#dynRectangle2 {
-    background-color: rgba(0, 0, 255, 0.5);
-}
-
-button {
-    padding: 10px 20px;
-    margin: 10px;
-    border: none;
-    background-color: #333;
+.controls button, .container button {
+    background-color: #007BFF;
     color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
     cursor: pointer;
     border-radius: 5px;
+    font-size: 16px;
 }
 
-button:hover {
-    background-color: #555;
-}
-
-#msg {
-    margin-top: 20px;
-    color: #333;
-    background-color: #e0e0e0;
-    padding: 10px;
-    border-radius: 5px;
+.controls button:hover, .container button:hover {
+    background-color: #0056b3;
 }

@@ -1,40 +1,35 @@
-let websock;
+// Remplacer l'adresse IP par celle de l'ESP32
+const webSocket = new WebSocket('ws://192.168.1.193:81/');
 
-function InitWebSocket() {
-    const ip = "10.1.224.41"; 
-    websock = new WebSocket(`ws://${ip}:81/`);
-    
-    websock.onopen = function() {
-        document.getElementById('msg').innerText = "WebSocket Connected!";
-    };
+let fanOn = false;
+let humOn = false;
 
-    websock.onmessage = function(evt) {
-        const data = JSON.parse(evt.data);
-        document.getElementById('Tempvalue').innerText = data.TEMP;
-        document.getElementById('Humvalue').innerText = data.HUM;
-        document.getElementById('FANbtn').innerText = `Fan: ${data.fanLEDonoff}`;
-        document.getElementById('HUMbtn').innerText = `Humidifier: ${data.humLEDonoff}`;
-        document.getElementById('msg').innerText = `Switch Status: ${data.SWonoff}`;
-        
-        document.getElementById("dynRectangle1").style.width = `${data.TEMP * 2}px`;
-        document.getElementById("dynRectangle2").style.width = `${data.HUM * 2}px`;
-    };
+webSocket.onopen = function() {
+    console.log('WebSocket Connected');
+};
 
-    websock.onclose = function() {
-        document.getElementById('msg').innerText = "WebSocket Disconnected!";
-    };
+webSocket.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+    document.getElementById('temperature').innerText = data.TEMP;
+    document.getElementById('humidity').innerText = data.HUM;
+    document.getElementById('switchStatus').innerText = data.SWonoff;
+
+    fanOn = data.fanLEDonoff === "ON";
+    humOn = data.humLEDonoff === "ON";
+};
+
+webSocket.onclose = function() {
+    console.log('WebSocket Disconnected');
+};
+
+function toggleFan() {
+    const message = `fanLEDonoff=${fanOn ? "OFF" : "ON"}`;
+    webSocket.send(message);
+    fanOn = !fanOn;
 }
 
-function fanONOFF() {
-    const btn = document.getElementById('FANbtn');
-    const newState = btn.innerText.includes('ON') ? 'fanLEDonoff=OFF' : 'fanLEDonoff=ON';
-    websock.send(newState);
+function toggleHum() {
+    const message = `humLEDonoff=${humOn ? "OFF" : "ON"}`;
+    webSocket.send(message);
+    humOn = !humOn;
 }
-
-function humONOFF() {
-    const btn = document.getElementById('HUMbtn');
-    const newState = btn.innerText.includes('ON') ? 'humLEDonoff=OFF' : 'humLEDonoff=ON';
-    websock.send(newState);
-}
-
-InitWebSocket();
