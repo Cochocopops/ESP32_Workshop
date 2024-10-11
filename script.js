@@ -1,7 +1,7 @@
 let websock;
 
 function InitWebSocket() {
-    const ip = "192.168.1.xxx"; // Remplacez par l'adresse IP de votre ESP32
+    const ip = "10.1.224.41"; 
     websock = new WebSocket(`ws://${ip}:81/`);
     
     websock.onopen = function() {
