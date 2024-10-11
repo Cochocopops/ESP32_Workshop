@@ -1,32 +1,40 @@
+let websock;
+
 function InitWebSocket() {
-    websock = new WebSocket('ws://' + window.location.hostname + ':80/');
+    const ip = "192.168.1.xxx"; // Remplacez par l'adresse IP de votre ESP32
+    websock = new WebSocket(`ws://${ip}:81/`);
+    
+    websock.onopen = function() {
+        document.getElementById('msg').innerText = "WebSocket Connected!";
+    };
+
     websock.onmessage = function(evt) {
-        let JSONobj = JSON.parse(evt.data);
-        document.getElementById('Tempvalue').innerHTML = JSONobj.TEMP;
-        let temp = parseInt(JSONobj.TEMP * 3);
-        document.getElementById("dynRectangle1").style.width = temp + "%";
-        document.getElementById('Humvalue').innerHTML = JSONobj.HUM;
-        let hum = parseInt(JSONobj.HUM * 3);
-        document.getElementById("dynRectangle2").style.width = hum + "%";
-        document.getElementById('FANbtn').innerHTML = JSONobj.fanLEDonoff;
-        document.getElementById('HUMbtn').innerHTML = JSONobj.humLEDonoff;
-        document.getElementById('msg').innerHTML = JSONobj.SWonoff;
-        if (JSONobj.SWonoff === 'ON') {
-            document.getElementById('msg').style.backgroundColor = "#ffcc00";
-        } else {
-            document.getElementById('msg').style.backgroundColor = "#ffff33";
-        }
-    }
+        const data = JSON.parse(evt.data);
+        document.getElementById('Tempvalue').innerText = data.TEMP;
+        document.getElementById('Humvalue').innerText = data.HUM;
+        document.getElementById('FANbtn').innerText = `Fan: ${data.fanLEDonoff}`;
+        document.getElementById('HUMbtn').innerText = `Humidifier: ${data.humLEDonoff}`;
+        document.getElementById('msg').innerText = `Switch Status: ${data.SWonoff}`;
+        
+        document.getElementById("dynRectangle1").style.width = `${data.TEMP * 2}px`;
+        document.getElementById("dynRectangle2").style.width = `${data.HUM * 2}px`;
+    };
+
+    websock.onclose = function() {
+        document.getElementById('msg').innerText = "WebSocket Disconnected!";
+    };
 }
 
 function fanONOFF() {
-    websock.send('fanLEDonoff=' + (document.getElementById('FANbtn').innerHTML === 'ON' ? 'OFF' : 'ON'));
+    const btn = document.getElementById('FANbtn');
+    const newState = btn.innerText.includes('ON') ? 'fanLEDonoff=OFF' : 'fanLEDonoff=ON';
+    websock.send(newState);
 }
 
 function humONOFF() {
-    websock.send('humLEDonoff=' + (document.getElementById('HUMbtn').innerHTML === 'ON' ? 'OFF' : 'ON'));
+    const btn = document.getElementById('HUMbtn');
+    const newState = btn.innerText.includes('ON') ? 'humLEDonoff=OFF' : 'humLEDonoff=ON';
+    websock.send(newState);
 }
 
-window.onload = function() {
-    InitWebSocket();
-};
+InitWebSocket();

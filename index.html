@@ -1,24 +1,26 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESP32 WebSocket Server - Brutalism Style</title>
+    <title>ESP32 WebSocket Server</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>ESP32 WebSocket Server</h1>
-    <div class="container">
-        <h2>Temperature: <span id="Tempvalue">0</span>°C</h2>
-        <h2>Humidity: <span id="Humvalue">0</span>%</h2>
-        <div class="progress-bar" id="dynRectangle1"></div>
-        <div class="progress-bar" id="dynRectangle2"></div>
-        <div class="controls">
-            <button class="btn" id="FANbtn" onclick="fanONOFF()">Fan</button>
-            <button class="btn" id="HUMbtn" onclick="humONOFF()">Humidifier</button>
+    <div>
+        <h2>
+            Temperature: <span id="Tempvalue">0</span> °C<br>
+            Humidity: <span id="Humvalue">0</span> %
+        </h2>
+        <div class="bars">
+            <div id="dynRectangle1"></div>
+            <div id="dynRectangle2"></div>
         </div>
-        <div class="status" id="msg"></div>
+        <div>
+            <button id="FANbtn" onclick="fanONOFF()">Fan: OFF</button>
+            <button id="HUMbtn" onclick="humONOFF()">Humidifier: OFF</button>
+        </div>
+        <div id="msg">Status: Waiting for connection...</div>
     </div>
-    <script src="script.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
